@@ -1,8 +1,8 @@
-from pyInjective import rand_injective
+from pyInjective import RandInjective
 from math import factorial
 
 # in this file, k = size(domain), n = size(codomain)
-p = rand_injective()
+p = RandInjective()
 
 
 # test returns the percent of tests run that were injective

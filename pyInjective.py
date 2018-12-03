@@ -1,14 +1,12 @@
 from ctypes import cdll
 from sys import platform
 
-os_type = platform
-
 
 if platform == "linux":
     lib = cdll.LoadLibrary('./linux-gnu/injection.so')
 
 
-class rand_injective(object):
+class RandInjective(object):
     def __init__(self):
         self.obj = lib.randInjective_new()
 
