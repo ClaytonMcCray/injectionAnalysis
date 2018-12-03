@@ -1,4 +1,6 @@
 __pycache__/
+.gitignore
+.idea/
 venv/
 linux-gnu/
 backup/
