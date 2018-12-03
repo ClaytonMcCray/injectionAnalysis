@@ -1,10 +1,27 @@
 from analysisLib import *
 
 
-num_tests = 100
+def print_data(data):
+    labels = ["Domain Size: ", "Codomain Size: ", "Number of Tests Run: ", "Ratio Codomain/Domain: ",
+              "Actual Percent Injective: ", "Actual Injective: ", "Expected Percent Injective: ",
+              "Expected Injective: ", "Percent Error: "]
 
-for dom in range(100):
-    for co in range(1000):
-        if dom < co:
-            print("(", dom, ",", co, ") Actual: ", test(dom, co, num_tests), "Expected: ", prob_injective(dom, co))
+    for i in range(len(data)):
+        print(labels[i], data[i], " ", end='')
 
+    print()
+
+
+def main():
+    r = 3  # the ratio codomain/domain
+    data = []
+    num_tests = 10000
+    for domain in range(1000):
+        actual_per, actual_count = test(domain, r*domain, num_tests)
+        expected, expected_count = prob_injective(domain, r*domain, num_tests)
+        error = percent_err(expected, actual_per)
+        data = [domain, r*domain, num_tests, r, actual_per, actual_count, expected, expected_count, error]
+        print_data(data)
+
+
+main()

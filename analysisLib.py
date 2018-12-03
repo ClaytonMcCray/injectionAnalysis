@@ -12,7 +12,7 @@ def test(k, n, num_tests):
         if p.injective(k, n):
             inj_count += 1
 
-    return inj_count/num_tests * 100
+    return inj_count/num_tests * 100, inj_count
 
 
 def num_injective(k, n):
@@ -23,5 +23,18 @@ def num_functions(k, n):
     return n ** k
 
 
-def prob_injective(k, n):
-    return num_injective(k, n)/num_functions(k, n) * 100
+def prob_injective(k, n, num_tests):
+    inj = num_injective(k, n)
+    num = num_functions(k, n)
+    per = inj/num * 100
+    expected = per/100 * num_tests
+    return per, round(expected)
+
+
+def percent_err(expected, actual):
+    if actual != 0 and expected != 0:
+        return abs(expected-actual)/actual * 100
+    elif actual == 0 and expected != 0:
+        return "ERROR"
+    else:
+        return 0
