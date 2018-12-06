@@ -10,7 +10,7 @@ to that shared object. analysisLib.py contains functions for actually anaylyzing
 analysis_driver.py is where tests are actually run. Eventually, data from the project will reside in a folder
 called results/.
 
-To run the project in whatever it's current config is, just clone the repo, run build.sh, install matplotlib,
+To run the project in whatever its current config is, just clone the repo, run build.sh, install matplotlib,
 and then run the driver.
 
 Requirements:
