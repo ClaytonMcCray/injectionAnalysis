@@ -3,7 +3,9 @@ from sys import platform
 
 
 if platform == "linux":
-    lib = cdll.LoadLibrary('./linux-gnu/injection.so')
+    lib = cdll.LoadLibrary('./lib/linux-gnu/injection.so')
+elif platform == "darwin":
+    lib = cdll.LoadLibrary('./lib/darwin17/injection.so')
 
 
 class RandInjective(object):

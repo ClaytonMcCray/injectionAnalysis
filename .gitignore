@@ -2,5 +2,7 @@ __pycache__/
 .gitignore
 .idea/
 venv/
-linux-gnu/
+mac_venv/
 cmake-build-debug/
+*.swp
+lib/
