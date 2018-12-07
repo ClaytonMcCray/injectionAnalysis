@@ -16,7 +16,7 @@ if [[ "$OSTYPE" == "linux-gnu" ]]; then
 	g++ -shared -Wl,-soname,injection.so -o injection.so injection.o -pthread
 
 elif [[ "$OSTYPE" == "darwin17" ]]; then
-    g++ -std=c++17 -c -fPIC ../../checkInjective.cpp -o injection.o -pthread
-    g++ -shared -Wl,-install_name,injection.so -o injection.so injection.o -pthread
+    g++ -std=c++17 -c -fPIC ../../checkInjective.cpp -o injection.o
+    g++ -shared -Wl,-install_name,injection.so -o injection.so injection.o
 fi
 

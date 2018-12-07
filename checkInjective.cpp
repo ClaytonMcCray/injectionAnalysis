@@ -3,6 +3,8 @@
 #include <random>
 #include <iostream>
 
+
+
 bool INJECTIVE;
 
 int getRandom(int n) {
@@ -23,6 +25,7 @@ void check(std::vector<std::vector<int>> fDict, int n) {
 class randInjective {
 public:
     bool injective(int maxDomain, int maxCodomain) {
+
         INJECTIVE = true;
         std::vector<std::vector<int>> domain(maxDomain);
         for (int i = 0; i < maxDomain; i++) {
@@ -31,10 +34,16 @@ public:
         }
 
         std::thread threads[maxDomain];
-        for (int i = 0; i < maxDomain && INJECTIVE; i++) {
+        for (int i = 0; i < maxDomain; i++) {  // removed && INJECTIVE
             threads[i] = std::thread(check, domain, i);
+        }
+
+        // previously had all threads joined above -- that was causing lockup
+        // now all threads are made, but any after INJECTIVE = false will just end immediately
+        for (int i = 0; i < maxDomain; i++) {
             threads[i].join();
         }
+
         return INJECTIVE;
 
     }
