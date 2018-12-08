@@ -1,4 +1,4 @@
-from analysisLib import *
+from lib.analysisLib import *
 import csv
 import matplotlib.pyplot as plt
 

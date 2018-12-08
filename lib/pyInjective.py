@@ -1,11 +1,12 @@
 from ctypes import cdll
 from sys import platform
+from os import getcwd
 
 
 if platform == "linux":
-    lib = cdll.LoadLibrary('./lib/linux-gnu/injection.so')
+    lib = cdll.LoadLibrary(getcwd() + '/lib/bin/linux-gnu/injection.so')
 elif platform == "darwin":
-    lib = cdll.LoadLibrary('./lib/darwin17/injection.so')
+    lib = cdll.LoadLibrary(getcwd() + '/lib/bin/darwin17/injection.so')
 
 
 class RandInjective(object):

@@ -6,4 +6,4 @@ mac_venv/
 cmake-build-debug/
 *.swp
 *.pyc
-lib/
+lib/bin/

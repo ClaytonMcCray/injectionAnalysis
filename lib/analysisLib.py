@@ -1,4 +1,4 @@
-from pyInjective import RandInjective
+from lib.pyInjective import RandInjective
 from math import factorial
 
 # in this file, k = size(domain), n = size(codomain)
