@@ -2,7 +2,13 @@
 
 # Resource: https://stackoverflow.com/questions/145270/calling-c-c-from-python
 #  ... I was using osx and had to replace -soname with -install_name to compile
-cd lib  # move into library
+if [ -d "lib" ]; then
+    cd lib  # move into library
+else;
+    mkdir lib
+    cd lib
+fi
+
 if [ -d "$OSTYPE" ]; then
 	rm -r $OSTYPE
 fi
