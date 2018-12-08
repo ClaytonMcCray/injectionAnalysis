@@ -33,15 +33,15 @@ public:
             domain.at(i).push_back(getRandom(maxCodomain));
         }
 
-        std::thread threads[maxDomain];
-        for (int i = 0; i < maxDomain; i++) {  // removed && INJECTIVE
-            threads[i] = std::thread(check, domain, i);
+        std::vector<std::thread> threads;
+        for (int i = 0; i < maxDomain && INJECTIVE; i++) {  // removed && INJECTIVE
+            threads.push_back(std::thread(check, domain, i));
         }
 
         // previously had all threads joined above -- that was causing lockup
         // now all threads are made, but any after INJECTIVE = false will just end immediately
-        for (int i = 0; i < maxDomain; i++) {
-            threads[i].join();
+        for (int i = 0; i < threads.size(); i++) {
+            threads.at(i).join();
         }
 
         return INJECTIVE;

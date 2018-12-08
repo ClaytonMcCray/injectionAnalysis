@@ -4,7 +4,7 @@
 #  ... I was using osx and had to replace -soname with -install_name to compile
 if [ -d "lib" ]; then
     cd lib  # move into library
-else;
+else
     mkdir lib
     cd lib
 fi
