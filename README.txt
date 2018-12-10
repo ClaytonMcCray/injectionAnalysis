@@ -7,7 +7,7 @@ remains fixed in size.
 The algortithm for determining if a function is injective resides in checkInjective.cpp. build.sh (tested on MacOS
 and Fedora Workstation 29) will build a shared library under pwd/lib/$OSTYPE/. pyInjective.py is an API
 to that shared object. analysisLib.py contains functions for actually anaylyzing things and making predictions.
-analysis_driver.py is where tests are actually run. Eventually, data from the project will reside in a folder
+analysis_driver.py is where tests are actually run.
 called results/.
 
 To run the project in whatever its current config is, just clone the repo, run build.sh, install matplotlib,
