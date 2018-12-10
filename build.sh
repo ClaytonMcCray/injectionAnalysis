@@ -9,6 +9,14 @@ else
     cd lib
 fi
 
+if [ -d "bin" ]; then
+    cd bin
+else
+    mkdir bin
+    cd bin
+fi
+
+
 if [ -d "$OSTYPE" ]; then
 	rm -r $OSTYPE
 fi
@@ -18,11 +26,11 @@ cd $OSTYPE
 
 
 if [[ "$OSTYPE" == "linux-gnu" ]]; then
-	g++ -c -fPIC ../src/checkInjective.cpp -o injection.o -pthread
+	g++ -c -fPIC ../../src/checkInjective.cpp -o injection.o -pthread
 	g++ -shared -Wl,-soname,injection.so -o injection.so injection.o -pthread
 
 elif [[ "$OSTYPE" == "darwin17" ]]; then
-    g++ -std=c++17 -c -fPIC ../lib/checkInjective.cpp -o injection.o
+    g++ -std=c++17 -c -fPIC ../../src/checkInjective.cpp -o injection.o
     g++ -shared -Wl,-install_name,injection.so -o injection.so injection.o
 fi
 
