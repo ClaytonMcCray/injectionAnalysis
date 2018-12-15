@@ -7,3 +7,4 @@ cmake-build-debug/
 *.swp
 *.pyc
 lib/bin/*
+lib/src/checkInj
