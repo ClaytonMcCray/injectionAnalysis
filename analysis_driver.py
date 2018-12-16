@@ -3,19 +3,19 @@ import csv
 import matplotlib.pyplot as plt
 
 
-NUM_TESTS = 1000
+NUM_TESTS = 100
 
 # fixed r plots
 MIN_R = 1
-MAX_R = 10000
+MAX_R = 10
 MIN_DOMAIN = 1
-MAX_DOMAIN = 1000000
+MAX_DOMAIN = 1000
 #################################
 
 # fixed domain plots
 FIXED_DOMAIN = 100
 MIN_CODOMAIN = FIXED_DOMAIN
-MAX_CODOMAIN = 1000000
+MAX_CODOMAIN = 10000
 #################################
 
 
