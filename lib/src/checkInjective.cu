@@ -1,5 +1,4 @@
 #include <random>
-#include <stdio.h>
 
 
 
@@ -11,64 +10,73 @@ int getRandom(int n) {
 }
 
 __global__
-void check(int *fDictX, int *fDictY, int sizeOfFDict, int currInjective) {
-    int idx = blockIdx.x * blockDim.x + threadIdx.x;
-    if (idx < sizeOfFDict) {
-        for (int i=idx; i < sizeOfFDict && currInjective; i++) {
-            if (fDictY[idx] == fDictY[i] && fDictX[idx] != fDictX[i]) {
-                currInjective = 0;
+void check(int *fDictX, int *fDictY, int sizeOfFDict, int *currInjective) {
+    int idxInit = blockIdx.x * blockDim.x + threadIdx.x;  // this is the initial global index
+
+    if (idxInit < sizeOfFDict) {  // make sure we're not out of bounds
+        // grid-stride loop 
+        for (int idx = idxInit; idx <= sizeOfFDict; idx += blockDim.x * gridDim.x) {
+            // this inner loop will do the work for a thread in each grid
+            for (int i=idx; i < sizeOfFDict; i++) {
+                if (fDictY[idx] == fDictY[i] && fDictX[idx] != fDictX[i]) {
+                    currInjective[idx] = 0;  // this will insert a zero into INJECTIVE
+                    break;
+                }
             }
         }
     }
 }
 
 
-int injective(int maxDomain, int maxCodomain) {
-    int INJECTIVE = 1;
-    // get a device copy of INJECTIVE
-    //int d_INJECTIVE;
-    //cudaMalloc(&d_INJECTIVE, sizeof(int));
-    //cudaMemcpy(d_INJECTIVE, INJECTIVE, sizeof(int), cudaMemcpyHostToDevice);
-    // ****
+extern "C" {
+    int injective(int maxDomain, int maxCodomain) {
 
-    int *domainX, *domainY, *d_domainX, *d_domainY;  // host, device
-    domainX = (int*)malloc(maxDomain * sizeof(int));
-    domainY = (int*)malloc(maxDomain * sizeof(int));
+        // declare the arrays
+        int *domainX, *domainY, *INJECTIVE;
 
-    cudaMalloc(&d_domainX, maxDomain*sizeof(int));
-    cudaMalloc(&d_domainY, maxDomain*sizeof(int));
+        // allocated Unified Memory
+        cudaMallocManaged(&domainX, maxDomain*sizeof(int));
+        cudaMallocManaged(&domainY, maxDomain*sizeof(int));
+        cudaMallocManaged(&INJECTIVE, maxDomain*sizeof(int));
 
-    for (int i = 0; i < maxDomain; i++) {
-        domainX[i] = i;
-        domainY[i] = getRandom(maxCodomain);
+
+        // initialize function
+        for (int i = 0; i < maxDomain; i++) {
+            domainX[i] = i;
+            domainY[i] = getRandom(maxCodomain);
+            INJECTIVE[i] = 1;  // here we assume that the function is injective
+        }
+
+
+        // actually make the kernel call
+        // this is currently running with thread blocks of size 256. I may find a better number
+        // to tune that too. It's <<< numBlocks, numThreads >>>
+        check<<<(maxDomain+255)/256, 256>>>(domainX, domainY, maxDomain, INJECTIVE);
+        cudaDeviceSynchronize();  // sync the host and device
+
+        // error checking
+        if (cudaSuccess != cudaGetLastError()) {
+            cudaFree(domainX);
+            cudaFree(domainY);
+            cudaFree(INJECTIVE);
+            return -1;  // this will be used to raise a RuntimeError 
+        }
+
+        // free the unified memory
+        cudaFree(domainX);
+        cudaFree(domainY);
+
+        for (int i = 0; i < maxDomain; i++) {
+            if (INJECTIVE[i] == 0) {  // 0 => false so the function is not injective
+                cudaFree(INJECTIVE);
+                return 0;
+            }
+        }
+
+        cudaFree(INJECTIVE);
+        return 1;  // the function is injective
+
     }
-
-    cudaMemcpy(d_domainX, domainX, maxDomain*sizeof(int), cudaMemcpyHostToDevice);
-    cudaMemcpy(d_domainY, domainY, maxDomain*sizeof(int), cudaMemcpyHostToDevice);
-
-    check<<<(maxDomain+255)/256, 256>>>(d_domainX, d_domainY, maxDomain, INJECTIVE);
-
-    //cudaMemcpy(INJECTIVE, d_INJECTIVE, sizeof(int), cudaMemcpyDeviceToHost);
-    
-    cudaFree(d_domainX);
-    cudaFree(d_domainY);
-    free(domainX);
-    free(domainY);
-
-    return INJECTIVE;
-
 }
     
-
-int main() {
-    int test = injective(2560, 10240);
-    printf("%s\n", test);
     
-    return 0;
-}
-
-    
-
-
-    
-
