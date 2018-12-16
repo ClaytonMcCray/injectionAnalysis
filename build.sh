@@ -26,8 +26,8 @@ cd $OSTYPE
 
 
 if [[ "$OSTYPE" == "linux-gnu" ]]; then
-	g++ -c -fPIC ../../src/checkInjective.cpp -o injection.o -pthread
-	g++ -shared -Wl,-soname,injection.so -o injection.so injection.o -pthread
+    # I only have an nVIDIA GPU on my linux machine, so it compiles CUDA for this
+    nvcc --shared -o injection.so ../../src/checkInjective.cu --compiler-options '-fPIC'
 
 elif [[ "$OSTYPE" == "darwin17" ]]; then
     g++ -std=c++17 -c -fPIC ../../src/checkInjective.cpp -o injection.o
