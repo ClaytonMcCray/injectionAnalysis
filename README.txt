@@ -16,5 +16,7 @@ and then run the driver.
 Requirements:
 python 3.6 (minimum version tested)
 matplotlib
-g++11 or higher
+CUDA capable NVIDIA GPU
+CUDA Toolkit
+gcc <= v.7
 
