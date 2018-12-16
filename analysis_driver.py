@@ -3,6 +3,11 @@ import csv
 import matplotlib.pyplot as plt
 
 
+# TODO #####################
+#   * Need to user expanduser to put plots in ~/projects/injectionAnalysis/...
+#   * Need to make a test config
+
+
 NUM_TESTS = 100
 
 # fixed r plots
