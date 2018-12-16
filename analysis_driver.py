@@ -1,6 +1,9 @@
 from lib.analysisLib import *
 import csv
 import matplotlib.pyplot as plt
+from os.path import expanduser, isdir
+from os import mkdir
+from datetime import datetime
 
 
 # TODO #####################
@@ -8,7 +11,7 @@ import matplotlib.pyplot as plt
 #   * Need to make a test config
 
 
-NUM_TESTS = 100
+NUM_TESTS = 10
 
 # fixed r plots
 MIN_R = 1
@@ -24,7 +27,8 @@ MAX_CODOMAIN = 10000
 #################################
 
 
-def fixed_domain_plots(file_path, domain, min_codomain, max_codomain, num_tests):
+
+def fixed_domain_plots(domain, min_codomain, max_codomain, num_tests):
     per_dat_points = []
     co_dat_points = []
     codomain = min_codomain
@@ -38,12 +42,21 @@ def fixed_domain_plots(file_path, domain, min_codomain, max_codomain, num_tests)
     plt.title("Fixed Domain Plot, k = " + str(domain) + ", Number of Tests: " + str(num_tests))
     plt.xlabel("Codomain Size")
     plt.ylabel("% Actual Injective")
-    plt.savefig(file_path + "d" + str(domain) + "tests" + str(num_tests) + ".png")
+
+    savepath = expanduser('~') + '/projects/injectionAnalysis/fixed_domain_plots/' + str(datetime.now()) + '/'
+    if not isdir(savepath):
+        mkdir(savepath)
+
+    plt.savefig(savepath + "d" + str(domain) + "tests" + str(num_tests) + ".png")
     plt.clf()
 
 
-def fixed_r_plots(file_path, min_r, max_r, num_tests, min_domain, max_domain):
+def fixed_r_plots(min_r, max_r, num_tests, min_domain, max_domain):
     r = min_r
+    savepath = expanduser('~') + '/projects/injectionAnalysis/fixed_r_plots/' + str(datetime.now()) + '/'
+    if not isdir(savepath):
+        mkdir(savepath)
+
     while r <= max_r:  # the ratio codomain/domain
         domain = min_domain
         per_dat_points = []
@@ -61,14 +74,14 @@ def fixed_r_plots(file_path, min_r, max_r, num_tests, min_domain, max_domain):
         plt.title("Fixed r Plot, r = " + str(r) + ", Number of Tests: " + str(num_tests))
         plt.xlabel("Domain Size")
         plt.ylabel("% Actual Injective")
-        plt.savefig(file_path + "r" + str(r) + "tests" + str(num_tests) + ".png")
+        plt.savefig(savepath + "r" + str(r) + "tests" + str(num_tests) + ".png")
         plt.clf()
         r += 1
 
 
-fixed_r_plots("results/fixed_r_plots/", MIN_R, MAX_R, NUM_TESTS, MIN_DOMAIN, MAX_DOMAIN)
+fixed_r_plots(MIN_R, MAX_R, NUM_TESTS, MIN_DOMAIN, MAX_DOMAIN)
 print("Finished fixed r plots.")
 
-fixed_domain_plots("results/fixed_domain_plots/", FIXED_DOMAIN, MIN_CODOMAIN, MAX_CODOMAIN, NUM_TESTS)
+fixed_domain_plots(FIXED_DOMAIN, MIN_CODOMAIN, MAX_CODOMAIN, NUM_TESTS)
 print("Finished fixed domain plot.")
 
