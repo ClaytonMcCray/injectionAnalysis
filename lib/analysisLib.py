@@ -1,16 +1,19 @@
-from lib.pyInjective import RandInjective
+from lib.pyInjective import injective
 from math import factorial
 
 # in this file, k = size(domain), n = size(codomain)
-p = RandInjective()
 
 
 # test returns the percent of tests run that were injective
 def test(k, n, num_tests):
     inj_count = 0
     for i in range(num_tests):
-        if p.injective(k, n):
+        ret_val = injective(k, n)
+        if ret_val:
             inj_count += 1
+        elif ret_val == -1:
+            # injective returns -1 when the CUDA code raises a thread error
+            raise RuntimeError
 
     return inj_count/num_tests * 100, inj_count
 
