@@ -7,8 +7,8 @@ from datetime import datetime
 
 
 # TODO #####################
-#   * Need to user expanduser to put plots in ~/projects/injectionAnalysis/...
-#   * Need to make a test config
+#   * Need to make a test config. Will be config.py
+#     to replace the garbage below cluttering up the driver.
 
 
 NUM_TESTS = 10
