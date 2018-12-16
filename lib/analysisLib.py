@@ -5,15 +5,13 @@ from math import factorial
 
 
 # test returns the percent of tests run that were injective
+# just a reminder -- pyInjective.injective will rasie RuntimeError
+# if there's an issue from the CUDA port of the algortithm
 def test(k, n, num_tests):
     inj_count = 0
     for i in range(num_tests):
-        ret_val = injective(k, n)
-        if ret_val:
+        if injective(k, n):
             inj_count += 1
-        elif ret_val == -1:
-            # injective returns -1 when the CUDA code raises a thread error
-            raise RuntimeError
 
     return inj_count/num_tests * 100, inj_count
 
