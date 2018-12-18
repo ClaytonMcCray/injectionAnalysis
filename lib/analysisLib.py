@@ -24,6 +24,10 @@ def num_functions(k, n):
     return n ** k
 
 
+def theoretical_prob_injective(k, n):
+    return 100 * num_injective(k, n) / num_functions(k, n)
+
+
 def prob_injective(k, n, num_tests):
     inj = num_injective(k, n)
     num = num_functions(k, n)

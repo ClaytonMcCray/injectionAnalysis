@@ -1,7 +1,7 @@
 from lib.analysisLib import *
 import csv
 import matplotlib.pyplot as plt
-from os.path import expanduser, isdir
+from os.path import isdir
 from os import mkdir
 from datetime import datetime
 import config
@@ -28,7 +28,7 @@ def fixed_domain_plots(domain, min_codomain, max_codomain, num_tests):
     plt.xlabel("Codomain Size")
     plt.ylabel("% Actual Injective")
 
-    savepath = expanduser('~') + '/projects/injectionAnalysis/fixed_domain_plots/' + str(datetime.now()) + '/'
+    savepath = config.fixed_domain + str(datetime.now()) + '/'
     if not isdir(savepath):
         mkdir(savepath)
 
@@ -38,7 +38,7 @@ def fixed_domain_plots(domain, min_codomain, max_codomain, num_tests):
 
 def fixed_r_plots(min_r, max_r, num_tests, min_domain, max_domain):
     r = min_r
-    savepath = expanduser('~') + '/projects/injectionAnalysis/fixed_r_plots/' + str(datetime.now()) + '/'
+    savepath = config.fixed_r + str(datetime.now()) + '/'
     if not isdir(savepath):
         mkdir(savepath)
 
@@ -64,7 +64,32 @@ def fixed_r_plots(min_r, max_r, num_tests, min_domain, max_domain):
         r += 1
 
 
+def theoretical_fixed_r(min_r, max_r, min_domain, max_domain):
+    r = min_r
+    savepath = config.theo_fixed_r + str(datetime.now()) + '/'
+    if not isdir(savepath):
+        mkdir(savepath)
 
+    while r <= max_r:
+        domain = min_domain
+        per_dat_points = []
+        dom_dat_points = []
+        while domain <= max_domain:
+            per_dat_points.append(theoretical_prob_injective(domain, r*domain))
+            dom_dat_points.append(domain)
+            domain += 1
+        plt.scatter(dom_dat_points, per_dat_points)
+        plt.title("Theoretical Fixed r Plot, r = " + str(r))
+        plt.xlabel("Domain Size")
+        plt.ylabel("Probabilty of Injectiveness")
+        plt.savefig(savepath + "r" + str(r) + ".png")
+        plt.clf()
+        r += 1
+
+
+
+
+# Reading in the config and running tests #########################################
 # func = name of function to call from config.py
 # idx = index of function -> parameters
 for idx, func in enumerate(config.tests_to_run):
