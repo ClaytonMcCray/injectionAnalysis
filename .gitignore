@@ -7,3 +7,4 @@ mac_venv/
 *.pyc
 lib/bin/*
 lib/src/checkInj
+config.py
