@@ -94,5 +94,6 @@ def theoretical_fixed_r(min_r, max_r, min_domain, max_domain):
 # idx = index of function -> parameters
 for idx, func in enumerate(config.tests_to_run):
     globals()[func](*config.test_params[idx])
+    print(func, idx)
 
 
