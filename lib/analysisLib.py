@@ -24,8 +24,17 @@ def num_functions(k, n):
     return n ** k
 
 
-def theoretical_prob_injective(k, n):
+# techinically this is correct and I think it's the clearer form, so I'm leaving it
+def theoretical_prob_injective_slow(k, n):
     return 100 * num_injective(k, n) / num_functions(k, n)
+
+
+# this is a more optimized version of the slow above
+def theoretical_prob_injective(k, n):
+    i = 1
+    for c in range(n-k+1, n+1):
+        i *= c
+    return 100 * (i / num_functions(k, n))
 
 
 def prob_injective(k, n, num_tests):
