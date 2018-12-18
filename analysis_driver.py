@@ -4,27 +4,12 @@ import matplotlib.pyplot as plt
 from os.path import expanduser, isdir
 from os import mkdir
 from datetime import datetime
+import config
 
 
 # TODO #####################
 #   * Need to make a test config. Will be config.py
 #     to replace the garbage below cluttering up the driver.
-
-
-NUM_TESTS = 10
-
-# fixed r plots
-MIN_R = 1
-MAX_R = 10
-MIN_DOMAIN = 1
-MAX_DOMAIN = 1000
-#################################
-
-# fixed domain plots
-FIXED_DOMAIN = 100
-MIN_CODOMAIN = FIXED_DOMAIN
-MAX_CODOMAIN = 10000
-#################################
 
 
 
@@ -79,9 +64,10 @@ def fixed_r_plots(min_r, max_r, num_tests, min_domain, max_domain):
         r += 1
 
 
-fixed_r_plots(MIN_R, MAX_R, NUM_TESTS, MIN_DOMAIN, MAX_DOMAIN)
-print("Finished fixed r plots.")
 
-fixed_domain_plots(FIXED_DOMAIN, MIN_CODOMAIN, MAX_CODOMAIN, NUM_TESTS)
-print("Finished fixed domain plot.")
+# func = name of function to call from config.py
+# idx = index of function -> parameters
+for idx, func in enumerate(config.tests_to_run):
+    globals()[func](*config.test_params[idx])
+
 
