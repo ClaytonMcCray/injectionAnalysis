@@ -17,18 +17,20 @@ def fixed_domain_plots(domain, min_codomain, max_codomain, num_tests):
     per_dat_points = []
     co_dat_points = []
     codomain = min_codomain
-    while codomain <= max_codomain:
+    for codomain in range(min_codomain, max_codomain + 1):
         actual_per, _ = test(domain, codomain, num_tests)
         per_dat_points.append(actual_per)
         co_dat_points.append(codomain)
-        codomain += 1
 
+    plt.ylim(0, 105)
     plt.scatter(co_dat_points, per_dat_points)
     plt.title("Fixed Domain Plot, k = " + str(domain) + ", Number of Tests: " + str(num_tests))
     plt.xlabel("Codomain Size")
     plt.ylabel("% Actual Injective")
 
     savepath = config.fixed_domain + str(datetime.now()) + '/'
+    if not isdir(config.fixed_domain):
+        mkdir(config.fixed_domain)
     if not isdir(savepath):
         mkdir(savepath)
 
@@ -36,55 +38,76 @@ def fixed_domain_plots(domain, min_codomain, max_codomain, num_tests):
     plt.clf()
 
 
-def fixed_r_plots(min_r, max_r, num_tests, min_domain, max_domain):
-    r = min_r
-    savepath = config.fixed_r + str(datetime.now()) + '/'
+def theoretical_fixed_domain(domain, min_codomain, max_codomain):
+    per_dat_points = []
+    co_dat_points = []
+    for codomain in range(min_codomain, max_codomain + 1):
+        per_dat_points.append(theoretical_prob_injective(domain, codomain))
+        co_dat_points.append(codomain)
+    
+    if not isdir(config.theo_fixed_domain):
+        mkdir(config.theo_fixed_domain)
+    savepath = config.theo_fixed_domain + str(datetime.now()) + '/'
     if not isdir(savepath):
         mkdir(savepath)
 
-    while r <= max_r:  # the ratio codomain/domain
-        domain = min_domain
+    plt.ylim(0, 105)
+    plt.scatter(co_dat_points, per_dat_points)
+    plt.title('Theoretical Fixed Domain Plot, k = ' + str(domain))
+    plt.xlabel('Codomain Size')
+    plt.ylabel('Probability of Injectiveness')
+    plt.savefig(savepath + 'd' + str(domain) + '.png')
+    plt.clf()
+
+
+def fixed_r_plots(min_r, max_r, min_domain, max_domain, num_tests):
+    savepath = config.fixed_r + str(datetime.now()) + '/'
+    if not isdir(config.fixed_r):
+        mkdir(config.fixed_r)
+    if not isdir(savepath):
+        mkdir(savepath)
+
+    for r in range(min_r, max_r + 1):  # the ratio codomain/domain
         per_dat_points = []
         dom_dat_points = []
-        while domain <= max_domain:
+        for domain in range(min_domain, max_domain + 1):
             actual_per, actual_count = test(domain, r*domain, num_tests)
 
             # data points
             per_dat_points.append(actual_per)
             dom_dat_points.append(domain)
 
-            domain += 1
-
+        plt.ylim(0, 105)
         plt.scatter(dom_dat_points, per_dat_points)
         plt.title("Fixed r Plot, r = " + str(r) + ", Number of Tests: " + str(num_tests))
         plt.xlabel("Domain Size")
         plt.ylabel("% Actual Injective")
         plt.savefig(savepath + "r" + str(r) + "tests" + str(num_tests) + ".png")
         plt.clf()
-        r += 1
 
 
 def theoretical_fixed_r(min_r, max_r, min_domain, max_domain):
     r = min_r
+    if not isdir(config.theo_fixed_r):
+        mkdir(config.theo_fixed_r)
     savepath = config.theo_fixed_r + str(datetime.now()) + '/'
     if not isdir(savepath):
         mkdir(savepath)
 
-    while r <= max_r:
-        domain = min_domain
+    for r in range(min_r, max_r + 1):
         per_dat_points = []
         dom_dat_points = []
-        while domain <= max_domain:
+        for domain in range(min_domain, max_domain + 1):
             per_dat_points.append(theoretical_prob_injective(domain, r*domain))
             dom_dat_points.append(domain)
-            domain += 1
+
+        plt.ylim(0, 105)
         plt.scatter(dom_dat_points, per_dat_points)
         plt.title("Theoretical Fixed r Plot, r = " + str(r))
         plt.xlabel("Domain Size")
         plt.ylabel("Probabilty of Injectiveness")
         plt.savefig(savepath + "r" + str(r) + ".png")
         plt.clf()
-        r += 1
 
 
 
@@ -94,6 +117,6 @@ def theoretical_fixed_r(min_r, max_r, min_domain, max_domain):
 # idx = index of function -> parameters
 for idx, func in enumerate(config.tests_to_run):
     globals()[func](*config.test_params[idx])
-    print(func, idx)
+    print(idx, func)
 
 
