@@ -11,7 +11,6 @@ fixed_domain = base_path + 'fixed_domain/'
 
 # this should be a list of function names as strings
 tests_to_run = [
-        'fixed_domain_plots',
         'fixed_r_plots'
         ]
 
@@ -19,8 +18,7 @@ tests_to_run = [
 # this should be a nested list of tuples of the parameters.
 # functions are indexed by tests_to_run
 test_params = [
-        (100, 100, 100000, 100, 10),
-        (1, 1000, 10, 1000, 100, 10)
+        (10, 10, 10, 1000, 25, 10)
         ]
 
 # Function headers #####################################################
