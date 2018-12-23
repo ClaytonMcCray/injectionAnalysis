@@ -13,11 +13,11 @@ import config
 
 
 
-def fixed_domain_plots(domain, min_codomain, max_codomain, num_tests):
+def fixed_domain_plots(domain, min_codomain, max_codomain, num_tests, codomain_skip=5):
     per_dat_points = []
     co_dat_points = []
     codomain = min_codomain
-    for codomain in range(min_codomain, max_codomain + 1):
+    for codomain in range(min_codomain, max_codomain + 1, codomain_skip):
         actual_per, _ = test(domain, codomain, num_tests)
         per_dat_points.append(actual_per)
         co_dat_points.append(codomain)
@@ -38,10 +38,10 @@ def fixed_domain_plots(domain, min_codomain, max_codomain, num_tests):
     plt.clf()
 
 
-def theoretical_fixed_domain(domain, min_codomain, max_codomain):
+def theoretical_fixed_domain(domain, min_codomain, max_codomain, codomain_skip=5):
     per_dat_points = []
     co_dat_points = []
-    for codomain in range(min_codomain, max_codomain + 1):
+    for codomain in range(min_codomain, max_codomain + 1, codomain_skip):
         per_dat_points.append(theoretical_prob_injective(domain, codomain))
         co_dat_points.append(codomain)
     
@@ -60,7 +60,7 @@ def theoretical_fixed_domain(domain, min_codomain, max_codomain):
     plt.clf()
 
 
-def fixed_r_plots(min_r, max_r, min_domain, max_domain, num_tests):
+def fixed_r_plots(min_r, max_r, min_domain, max_domain, num_tests, domain_skip=5):
     savepath = config.fixed_r + str(datetime.now()) + '/'
     if not isdir(config.fixed_r):
         mkdir(config.fixed_r)
@@ -70,7 +70,7 @@ def fixed_r_plots(min_r, max_r, min_domain, max_domain, num_tests):
     for r in range(min_r, max_r + 1):  # the ratio codomain/domain
         per_dat_points = []
         dom_dat_points = []
-        for domain in range(min_domain, max_domain + 1):
+        for domain in range(min_domain, max_domain + 1, domain_skip):
             actual_per, actual_count = test(domain, r*domain, num_tests)
 
             # data points
@@ -86,7 +86,7 @@ def fixed_r_plots(min_r, max_r, min_domain, max_domain, num_tests):
         plt.clf()
 
 
-def theoretical_fixed_r(min_r, max_r, min_domain, max_domain):
+def theoretical_fixed_r(min_r, max_r, min_domain, max_domain, domain_skip=5):
     r = min_r
     if not isdir(config.theo_fixed_r):
         mkdir(config.theo_fixed_r)
@@ -97,7 +97,7 @@ def theoretical_fixed_r(min_r, max_r, min_domain, max_domain):
     for r in range(min_r, max_r + 1):
         per_dat_points = []
         dom_dat_points = []
-        for domain in range(min_domain, max_domain + 1):
+        for domain in range(min_domain, max_domain + 1, domain_skip):
             per_dat_points.append(theoretical_prob_injective(domain, r*domain))
             dom_dat_points.append(domain)
 
