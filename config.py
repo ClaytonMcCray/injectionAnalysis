@@ -11,7 +11,7 @@ fixed_domain = base_path + 'fixed_domain/'
 
 # this should be a list of function names as strings
 tests_to_run = [
-        'theoretical_fixed_domain'
+        'theoretical_fixed_domain',
         'theoretical_fixed_domain'
         ]
 
