@@ -38,26 +38,31 @@ def fixed_domain_plots(domain, min_codomain, max_codomain, num_tests, codomain_s
     plt.clf()
 
 
-def theoretical_fixed_domain(domain, min_codomain, max_codomain, codomain_skip=5):
-    per_dat_points = []
-    co_dat_points = []
-    for codomain in range(min_codomain, max_codomain + 1, codomain_skip):
-        per_dat_points.append(theoretical_prob_injective(domain, codomain))
-        co_dat_points.append(codomain)
-    
+def theoretical_fixed_domain(min_domain, max_domain, min_codomain, max_codomain, codomain_skip=5):
+    # build directory
     if not isdir(config.theo_fixed_domain):
         mkdir(config.theo_fixed_domain)
     savepath = config.theo_fixed_domain + str(datetime.now()) + '/'
     if not isdir(savepath):
         mkdir(savepath)
+    
+    for domain in range(min_domain, max_domain + 1):
+        # it doesn't make sense to look at data for which the following is untrue
+        if domain < min_codomain:
+            pass
+        per_dat_points = []
+        co_dat_points = []
+        for codomain in range(min_codomain, max_codomain + 1, codomain_skip):
+            per_dat_points.append(theoretical_prob_injective(domain, codomain))
+            co_dat_points.append(codomain)
 
-    plt.ylim(0, 105)
-    plt.scatter(co_dat_points, per_dat_points)
-    plt.title('Theoretical Fixed Domain Plot, k = ' + str(domain))
-    plt.xlabel('Codomain Size')
-    plt.ylabel('Probability of Injectiveness')
-    plt.savefig(savepath + 'd' + str(domain) + '.png')
-    plt.clf()
+        plt.ylim(0, 105)
+        plt.scatter(co_dat_points, per_dat_points)
+        plt.title('Theoretical Fixed Domain Plot, d = ' + str(domain))
+        plt.xlabel('Codomain Size')
+        plt.ylabel('Probability of Injectiveness')
+        plt.savefig(savepath + 'd' + str(domain) + '.png')
+        plt.clf()
 
 
 def fixed_r_plots(min_r, max_r, min_domain, max_domain, num_tests, domain_skip=5):
