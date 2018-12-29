@@ -11,7 +11,6 @@ fixed_domain = base_path + 'fixed_domain/'
 
 # this should be a list of function names as strings
 tests_to_run = [
-        'theoretical_fixed_domain',
         'theoretical_fixed_domain'
         ]
 
@@ -19,8 +18,7 @@ tests_to_run = [
 # this should be a nested list of tuples of the parameters.
 # functions are indexed by tests_to_run
 test_params = [
-        (100, 100, 100, 1000),
-        (100, 1000, 1000, 10000)
+        (552, 10000, 1000, 10000000, 25)
         ]
 
 # Function headers #####################################################
