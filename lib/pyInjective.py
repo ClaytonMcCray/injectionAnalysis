@@ -10,6 +10,8 @@ elif platform == "darwin":
 
 
 def injective(domain, codomain):
+    if domain > codomain:
+        return False
     ret_val = lib.injective(domain, codomain)
     if ret_val == 1:
         return True
