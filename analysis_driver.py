@@ -47,9 +47,6 @@ def theoretical_fixed_domain(min_domain, max_domain, min_codomain, max_codomain,
         mkdir(savepath)
     
     for domain in range(min_domain, max_domain + 1):
-        # it doesn't make sense to look at data for which the following is untrue
-        if domain < min_codomain:
-            pass
         per_dat_points = []
         co_dat_points = []
         for codomain in range(min_codomain, max_codomain + 1, codomain_skip):
